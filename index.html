@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>神宮館高等学校</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700&family=Gaegu:wght@400;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#12141c;
+    --navy-deep:#0a0b10;
+    --gold:#c9a227;
+    --polaroid:#f6f2e7;
+    --tape:#c96a4f;
+    --ink:#2b2b28;
+    --sub:#9aa0ad;
+    --line:rgba(201,162,39,.25);
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--navy-deep);
+    font-family:'Noto Sans KR',sans-serif;
+    color:var(--polaroid);
+    display:flex;
+    justify-content:center;
+  }
+  .frame{
+    width:100%;
+    max-width:430px;
+    min-height:100vh;
+    background:
+      linear-gradient(180deg,var(--navy) 0%, var(--navy-deep) 100%);
+    position:relative;
+    padding:0 0 80px;
+    overflow:hidden;
+  }
+  /* 필름 스프라켓 홀 사이드바 */
+  .sprockets{
+    position:absolute; top:0; bottom:0; width:22px;
+    background:repeating-linear-gradient(
+      180deg,
+      transparent 0 10px,
+      rgba(0,0,0,.55) 10px 22px
+    );
+  }
+  .sprockets::before{
+    content:'';
+    position:absolute; inset:0;
+    background-image:radial-gradient(circle, var(--navy-deep) 3.5px, transparent 3.6px);
+    background-size:22px 22px;
+    background-position:11px 5px;
+  }
+  .sprockets.left{left:0;}
+  .sprockets.right{right:0;}
+
+  .content{ padding:0 30px; position:relative; z-index:2; }
+
+  header{
+    text-align:center;
+    padding:56px 20px 34px;
+  }
+  header .eyebrow{
+    font-family:'Gaegu',sans-serif;
+    color:var(--gold);
+    font-size:13px;
+    letter-spacing:.18em;
+    margin-bottom:8px;
+  }
+  header h1{
+    font-family:'Shippori Mincho',serif;
+    font-size:30px;
+    margin:0;
+    letter-spacing:.06em;
+    color:var(--polaroid);
+  }
+  header h2{
+    font-family:'Shippori Mincho',serif;
+    font-size:14px;
+    font-weight:500;
+    color:var(--sub);
+    margin:6px 0 0;
+    letter-spacing:.12em;
+  }
+  header .divider{
+    width:46px;height:1px;
+    background:var(--gold);
+    margin:20px auto 0;
+    opacity:.6;
+  }
+
+  .roll-label{
+    display:flex; align-items:center; gap:10px;
+    color:var(--sub); font-size:11px; letter-spacing:.14em;
+    margin:6px 4px 18px;
+    font-family:'Gaegu',sans-serif;
+  }
+  .roll-label::before,.roll-label::after{
+    content:''; flex:1; height:1px; background:var(--line);
+  }
+
+  .roll{ display:flex; flex-direction:column; gap:38px; padding-bottom:10px;}
+
+  .polaroid{
+    background:var(--polaroid);
+    padding:14px 14px 20px;
+    box-shadow:0 14px 30px rgba(0,0,0,.45);
+    position:relative;
+  }
+  .polaroid:nth-child(odd){ transform:rotate(-2.4deg); margin-left:6px;}
+  .polaroid:nth-child(even){ transform:rotate(2deg); margin-right:6px;}
+
+  .tape{
+    position:absolute; top:-12px; left:50%;
+    width:64px; height:26px;
+    background:var(--tape);
+    opacity:.82;
+    transform:translateX(-50%) rotate(-4deg);
+    box-shadow:0 2px 4px rgba(0,0,0,.3);
+  }
+  .polaroid:nth-child(3n)::after{ /* corner tape variant */
+    content:'';
+    position:absolute; top:-10px; right:14px;
+    width:46px; height:22px;
+    background:var(--gold);
+    opacity:.55;
+    transform:rotate(10deg);
+  }
+
+  .shot{
+    width:100%;
+    aspect-ratio:4/5;
+    background:
+      linear-gradient(160deg, var(--shot-a,#3a3f52), var(--shot-b,#1c1e28));
+    display:flex;
+    align-items:flex-end;
+    position:relative;
+    overflow:hidden;
+    filter:saturate(.85) contrast(1.02);
+  }
+  .shot img{
+    position:absolute; inset:0;
+    width:100%; height:100%;
+    object-fit:cover;
+  }
+  .shot .code{
+    position:relative; z-index:1;
+    font-family:'Shippori Mincho',serif;
+    font-size:64px;
+    color:rgba(255,255,255,.14);
+    padding:8px 12px;
+  }
+  .shot .grain{
+    position:absolute; inset:0;
+    background-image:radial-gradient(rgba(255,255,255,.05) 1px, transparent 1px);
+    background-size:3px 3px;
+    mix-blend-mode:overlay;
+    pointer-events:none;
+  }
+
+  .caption{
+    font-family:'Gaegu',sans-serif;
+    color:var(--ink);
+    font-size:16px;
+    line-height:1.5;
+    margin-top:14px;
+    padding:0 2px;
+  }
+  .caption .who{
+    display:inline-block;
+    font-weight:700;
+    color:var(--tape);
+    margin-right:4px;
+  }
+  .meta{
+    font-family:'Noto Sans KR',sans-serif;
+    font-size:10.5px;
+    color:#8a8578;
+    letter-spacing:.08em;
+    margin-top:8px;
+    display:flex;
+    justify-content:space-between;
+  }
+
+  footer{
+    text-align:center;
+    padding:44px 20px 10px;
+    color:var(--sub);
+    font-size:11px;
+    letter-spacing:.14em;
+    font-family:'Gaegu',sans-serif;
+  }
+  footer .stamp{
+    display:inline-block;
+    border:1px solid var(--line);
+    border-radius:50%;
+    width:54px;height:54px;
+    line-height:54px;
+    color:var(--gold);
+    font-family:'Shippori Mincho',serif;
+    font-size:20px;
+    margin-bottom:14px;
+  }
+</style>
+</head>
+<body>
+<div class="frame">
+  <div class="sprockets left"></div>
+  <div class="sprockets right"></div>
+
+  <div class="content">
+    <header>
+      <div class="eyebrow">JINGUKAN HIGH SCHOOL · 2019</div>
+      <h1>神宮館高等学校</h1>
+      <h2>진구칸고등학교 생활기록</h2>
+      <div class="divider"></div>
+    </header>
+
+    <div class="roll-label">FILM ROLL — 2학년 1반</div>
+
+    <div class="roll">
+
+      <div class="polaroid">
+        <div class="tape"></div>
+        <div class="shot" style="--shot-a:#2b2d3a;--shot-b:#14151d;">
+          <img src="https://raw.githubusercontent.com/snowbls/sample/main/k5.png" alt="코우" onerror="this.remove()">
+          <div class="grain"></div>
+          <span class="code">鷺沢</span>
+        </div>
+        <p class="caption"><span class="who">코우</span> 몰래 웃다가 딱 걸림</p>
+      </div>
+
+      <div class="polaroid">
+        <div class="tape"></div>
+        <div class="shot" style="--shot-a:#4a3324;--shot-b:#201510;">
+          <img src="https://raw.githubusercontent.com/snowbls/sample/main/g12.png" alt="겐타" onerror="this.remove()">
+          <div class="grain"></div>
+          <span class="code">源太</span>
+        </div>
+        <p class="caption"><span class="who">겐타</span> 유도부 지도하는 중</p>
+      </div>
+
+      <div class="polaroid">
+        <div class="tape"></div>
+        <div class="shot" style="--shot-a:#3a4550;--shot-b:#161c22;">
+          <img src="https://raw.githubusercontent.com/snowbls/sample/main/j16.png" alt="진" onerror="this.remove()">
+          <div class="grain"></div>
+          <span class="code">穂積</span>
+        </div>
+        <p class="caption"><span class="who">진</span> 옷 갈아입다 문 열려서 패닉 온 순간</p>
+      </div>
+
+      <div class="polaroid">
+        <div class="tape"></div>
+        <div class="shot" style="--shot-a:#464033;--shot-b:#1c1913;">
+          <img src="https://raw.githubusercontent.com/snowbls/sample/main/c11.png" alt="카이토" onerror="this.remove()">
+          <div class="grain"></div>
+          <span class="code">快斗</span>
+        </div>
+        <p class="caption"><span class="who">카이토</span> 3점슛 넣기</p>
+      </div>
+
+      <div class="polaroid">
+        <div class="tape"></div>
+        <div class="shot" style="--shot-a:#2f3a3d;--shot-b:#131b1d;">
+          <img src="https://raw.githubusercontent.com/snowbls/sample/main/z12.png" alt="이즈루" onerror="this.remove()">
+          <div class="grain"></div>
+          <span class="code">風間</span>
+        </div>
+        <p class="caption"><span class="who">이즈루</span> 수영 끝나고 멍하니 물기 안 닦고 앉아있음</p>
+      </div>
+
+      <div class="polaroid">
+        <div class="tape"></div>
+        <div class="shot" style="--shot-a:#553c44;--shot-b:#22161a;">
+          <img src="https://raw.githubusercontent.com/snowbls/sample/main/h4.png" alt="히이라기" onerror="this.remove()">
+          <div class="grain"></div>
+          <span class="code">柊</span>
+        </div>
+        <p class="caption"><span class="who">히이라기</span> 유일하게 진지한 표정 짓는 순간</p>
+      </div>
+
+      <div class="polaroid">
+        <div class="tape"></div>
+        <div class="shot" style="--shot-a:#3a3d2f;--shot-b:#171912;">
+          <img src="https://raw.githubusercontent.com/snowbls/sample/main/d13.png" alt="다이치" onerror="this.remove()">
+          <div class="grain"></div>
+          <span class="code">大地</span>
+        </div>
+        <p class="caption"><span class="who">다이치</span> 서랍 속 숨겨둔 단것 누군가 가져감</p>
+      </div>
+
+      <div class="polaroid">
+        <div class="tape"></div>
+        <div class="shot" style="--shot-a:#33404a;--shot-b:#141a1f;">
+          <img src="https://raw.githubusercontent.com/snowbls/sample/main/s7.png" alt="세이야" onerror="this.remove()">
+          <div class="grain"></div>
+          <span class="code">星矢</span>
+        </div>
+        <p class="caption"><span class="who">세이야</span> 우산 몰래 놔주고 시치미 떼는 중</p>
+      </div>
+
+      <div class="polaroid">
+        <div class="tape"></div>
+        <div class="shot" style="--shot-a:#4a3f55;--shot-b:#1c1822;">
+          <img src="https://raw.githubusercontent.com/snowbls/sample/main/i5.png" alt="이츠키" onerror="this.remove()">
+          <div class="grain"></div>
+          <span class="code">樹</span>
+        </div>
+        <p class="caption"><span class="who">이츠키</span> 양궁장에서만 보이는 진지 모드</p>
+      </div>
+
+      <div class="polaroid">
+        <div class="tape"></div>
+        <div class="shot" style="--shot-a:#4a4536;--shot-b:#1e1b15;">
+          <img src="https://raw.githubusercontent.com/snowbls/sample/main/t14.png" alt="츠바사" onerror="this.remove()">
+          <div class="grain"></div>
+          <span class="code">翼</span>
+        </div>
+        <p class="caption"><span class="who">츠바사</span> 물 마시는 모습 몰래 찍기</p>
+      </div>
+
+    </div>
+
+    <footer>
+      <div class="stamp">神</div>
+      <div>JINGUKAN HIGH · SENDAI · EST. 1958</div>
+    </footer>
+  </div>
+</div>
+</body>
+</html>
